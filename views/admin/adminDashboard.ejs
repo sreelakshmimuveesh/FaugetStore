@@ -1,0 +1,87 @@
+<%-include('../adminLayouts/adminheader.ejs') %>
+ 
+<div class="sidebar">
+  <div style="padding: 16px;color: #FDC33D;">
+     <p> <img src="/img/img_avatar1.png" class="avatar"> Admin</p>
+  </div>
+  <a href="/admin/orderManagement"><img src="/img/shopping-cart-256.png" style="width:30px;height: 30px;">  Orders</a>
+  <a href="/admin/userDisplay"><img src="/img/users.png" style="width:30px;height: 30px;"> Users</a>
+  <a href="/admin/productDisplay"><img src="/img/product.png" style="width:30px;height: 30px;"> Product</a>
+  <a href="/admin/transactions"><img src="/img/payment.png" style="width:30px;height: 30px;"> Transactions</a>
+  <a href="/admin/coupons"><img src="/img/coupon.png" style="width:30px;height: 30px;"> Coupons</a>
+  <a href="/admin/reports"><img src="/img/report-3-256.png" style="width:30px;height: 30px;"> Reports</a>
+</div>
+<div class="content">
+  <div class="container-fluid" style="background-color: antiquewhite;padding: 10px;height: auto;">
+  <form>
+    <div class="input-group" style="padding: 20px;">
+        <input type="text" class="form-control rounded" name="search" placeholder="Search product">
+        <input type="submit" class="btn btn-outline-primary" value="search">
+    </div>
+</form>
+  </div>
+  <!-- Begin Page Content -->
+  <div class="container-fluid mt-4 ml-5">
+
+    
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:green;text-align: center;">Total Customers<br><%= user %></div>
+                        </div>
+                        <div class="col-auto">
+                            <img style="border-radius: 50%;" src="/img/img_avatar.png" height="100px" width="100px">
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:green;text-align: center;">Total Products<br><%= product %></div>
+                        </div>
+                        <div class="col-auto">
+                            <img src="/img/product1.png" height="100px" width="100px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800" style="color:green;text-align: center;">Total Orders<br><%= order %></div>
+                        </div>
+                        <div class="col-auto">
+                            <img src="/img/order.png" height="100px" width="100px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+       
+
+  <%-include('../adminLayouts/adminfooter.ejs') %>

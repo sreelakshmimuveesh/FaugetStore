@@ -1,0 +1,57 @@
+<%-include('../adminLayouts/adminheader.ejs') %>
+<!-- side bar -->
+<div class="sidebar">
+	<div style="padding: 16px;color: #FDC33D;">
+	   <p> <img src="/img/img_avatar1.png" class="avatar"> Admin</p>
+	</div>
+	<a href="/admin/orderManagement"><img src="/img/shopping-cart-256.png" style="width:30px;height: 30px;">  Orders</a>
+	<a href="/admin/userDisplay"><img src="/img/users.png" style="width:30px;height: 30px;"> Users</a>
+	<a class="active" href="/admin/productDisplay"><img src="/img/product.png" style="width:30px;height: 30px;"> Product</a>
+	<a href="/admin/transactions"><img src="/img/payment.png" style="width:30px;height: 30px;"> Transactions</a>
+	<a href="/admin/coupons"><img src="/img/coupon.png" style="width:30px;height: 30px;"> Coupons</a>
+	<a href="/admin/reports"><img src="/img/report-3-256.png" style="width:30px;height: 30px;"> Reports</a>
+  </div>
+  <!-- side bar end-->
+  <div class="content">
+		<h3>Add User</h3>
+		<div class="container-fluid bg-light" style="height:auto;padding: 10px;">
+			<form action="/admin/addUser" method="post" enctype="multipart/form-data">
+				<!-- <div class = "form-row"> -->
+				<div class="form-group col-md-6">
+				   <% if(typeof message !=='undefined' ){ %>
+					  <p style="color: green;">
+						 <%= message %>
+					  </p>
+					  <%}%>
+						 <label style="color: black;font-weight: bolder;" for="name">Name</label>
+						 <input name="name" type="text" class=" form-control" placeholder="Name"style="background:transparent;">
+				</div>
+		
+				<div class="form-group col-md-6">
+				   <label style="color: black;font-weight: bolder;" for="email">Email</label>
+				   <input name="email" type="text" class="form-control" placeholder="Email" style="background:transparent;">
+				</div>
+				<!-- </div> -->
+		
+				<div class="form-group col-md-6">
+				   <label style="color: black;font-weight: bolder;" for="phone">Mobile Number</label>
+				   <input name="phone" type="text" class=" form-control" placeholder="Mobile Number" style="background:transparent;">
+				</div>
+		
+				
+		
+				<button type="submit" class="btn btn-primary mx-3">Add User</button>
+			 </form>
+	</div>
+	</div>
+	<!-- form end here -->
+		<% 
+		if(typeof message !== 'undefined'){
+			%>
+			<p style="color:green;text-align: center;"><%= message %></p>
+			
+			<%
+		}
+		%>
+
+		<%-include('../adminLayouts/adminfooter.ejs') %>

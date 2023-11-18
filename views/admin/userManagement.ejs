@@ -1,0 +1,104 @@
+<%-include('../adminLayouts/adminheader.ejs') %>
+<div class="sidebar">
+  <div style="padding: 16px;color: #FDC33D;">
+     <p> <img src="/img/img_avatar1.png" class="avatar"> Admin</p>
+  </div>
+  <a href="/admin/orderManagement"><img src="/img/shopping-cart-256.png" style="width:30px;height: 30px;">  Orders</a>
+  <a class="active" href="/admin/userDisplay"><img src="/img/users.png" style="width:30px;height: 30px;"> Users</a>
+  <a href="/admin/productDisplay"><img src="/img/product.png" style="width:30px;height: 30px;"> Product</a>
+  <a href="admin/transactions"><img src="/img/payment.png" style="width:30px;height: 30px;"> Transactions</a>
+  <a href="/admin/coupons"><img src="/img/coupon.png" style="width:30px;height: 30px;"> Coupons</a>
+  <a href="/admin/reports"><img src="/img/report-3-256.png" style="width:30px;height: 30px;"> Reports</a>
+</div><div class="content">
+<div class="container-fluid" style="background-color: antiquewhite;height: 100px;padding: 10px;">
+  
+  <form>
+    <div class="input-group" style="padding: 20px;">
+        <input type="text" class="form-control rounded" name="search" placeholder="Search User">
+        <input type="submit" class="btn btn-outline-primary" value="search">
+    </div>
+</form>
+
+   
+  </div>
+<div class="container-fluid" style="text-align: center;">
+    <button type="button" class="btn btn-outline-success"><a href="/admin/addUser">ADD USER</a></button>
+</div>
+
+<div class="container-fluid bg-light text-center p-3 ml-5">
+  <table class="table col-sm-3">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Name</th>
+        <th scope="col">Email</th>
+        <th scope="col">Mobile</th>
+        <th scope="col">Verified</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (users && users.length > 0) { %>
+        <% for (let i = 0; i < users.length; i++) { %>
+          <tr>
+            <td><%= i %></td>
+            <td><%= users[i].name %></td>
+            <td><%= users[i].email %></td>
+            <td><%= users[i].phone %></td>
+           <td> <a onclick="return confirm('Do you want to delete')"
+
+            href="/admin/deleteUser?id=<%= users[i]._id%>"><i class="fa fa-trash"></i></a></td>
+            <td>
+              <button type="button" class="btn btn-outline-primary toggleBlock" data-user-id="<%= users[i]._id %>">
+                <%= users[i].isBlocked ? 'UNBLOCK' : 'BLOCK' %>
+              </button>
+            </td>
+          </tr>
+        <% } %>
+      <% } else { %>
+        <tr>
+          <td colspan="6">No users found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+   <!-- Pagination -->
+<ul class="pagination">
+  <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= page == i ? 'active' : '' %>">
+          <a class="page-link" href="/admin/userDisplay?page=<%= i %>"><%= i %></a>
+      </li>
+  <% } %>
+</div>
+
+  <script>
+    const toggleBlockButtons = document.querySelectorAll('.toggleBlock');
+  
+    toggleBlockButtons.forEach(button => {
+      button.addEventListener('click', async () => {
+        const userId = button.getAttribute('data-user-id');
+  
+        try {
+          const response = await fetch(`/users/block/${userId}`, {
+            method: 'POST',
+          });
+  
+          if (response.ok) {
+            // Toggle the button text after a successful request
+            button.innerText = button.innerText === 'BLOCK' ? 'UNBLOCK' : 'BLOCK';
+            alert('Block status updated');
+          } else {
+            alert('Error updating block status');
+          }
+        } catch (error) {
+          console.error(error);
+          alert('Error updating block status');
+        }
+      });
+    });
+  </script>
+  
+  
+
+
+  <%-include('../adminLayouts/adminfooter.ejs') %>

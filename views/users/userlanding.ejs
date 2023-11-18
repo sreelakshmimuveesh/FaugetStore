@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fauget Store</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/CSS/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+
+</head>
+
+<body>
+    <!-- Topbar Start -->
+
+
+    <%- include('../userLayouts/normalHeader') %>
+
+        <!-- Navbar End -->
+
+        <!-- Featured Start -->
+        <div class="container-fluid pt-5 text-center">
+            <div class="row px-xl-5 pb-3">
+
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4 "
+                        style="padding: 30px;background-color: #FE7596;">
+                        <h1 class="fa fa-shipping-fast text-white m-0 mr-2"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white"> FREE DELIVERY</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;background-color: #FE7596;">
+                        <h1 class="fas fa-gift text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">GIFT CARD</h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;background-color: #FE7596;">
+                        <h1 class="fas fa-angle-down text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">100% RETURN </h5>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-12 pb-1">
+                    <div class="d-flex align-items-center border mb-4" style="padding: 30px;background-color: #FE7596;">
+                        <h1 class=" fas fa-user text-white m-0 mr-3"></h1>
+                        <h5 class="font-weight-semi-bold m-0 text-white">Customer Support</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Featured End -->
+
+
+        <!-- Categories Start -->
+        <div class="container-fluid pt-5">
+            <div class="row px-xl-5 pb-3">
+                <div class="col-lg-4 col-md-6 pb-1">
+                    <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                        <p class="text-right">New Arrivals</p>
+                        <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                            <img class="img-fluid" src="/img/babytoy1.webp" alt="">
+                        </a>
+                        <h5 class="font-weight-semi-bold m-0">BABY-DOVE</h5>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 pb-1">
+                    <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                        <p class="text-right">New Arrivals</p>
+                        <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                            <img class="img-fluid" src="/img/cover4.webp" alt="">
+                        </a>
+                        <h5 class="font-weight-semi-bold m-0">SEBA MED</h5>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 pb-1">
+                    <div class="cat-item d-flex flex-column border mb-4" style="padding: 30px;">
+                        <p class="text-right">New Arrivals</p>
+                        <a href="" class="cat-img position-relative overflow-hidden mb-3">
+                            <img class="img-fluid" src="/img/cover5.webp" alt="">
+                        </a>
+                        <h5 class="font-weight-semi-bold m-0">AWSOME TOYS</h5>
+                    </div>
+                </div>
+
+
+                <!-- Products Start -->
+                <div class="container-fluid pt-5 d-block">
+                    <div class="text-center b-4">
+                        <h2 class="section-title px-5"><span class="px-2">EXPLORE AMAZING PRODUCTS</span></h2>
+                    </div>
+                    <div class="col-md-9">
+                        <div class="row px-xl-5 pb-3" style="display: flex;">
+                            <% if (product.length> 0) {
+                                for (let i = 0; i < product.length; i++) { %>
+                                    <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                                        <div class="card product-item mb-2 m-auto p-3 "
+                                            style="background-color: white;">
+
+                                            <div
+                                                class="card-header product-img position-relative overflow-hidden bg-white border p-0">
+                                                <a href="/productDetail?id=<%= product[i]._id %>">
+                                                    <img class="product-image img-fluid w-100"
+                                                        src="/productImages/<%= product[i].pimage %>" alt=""
+                                                        data-zoom-image="/productImages/high-res-image.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body border-left border-right text-center p-1 pt-4 pb-3"
+                                                style="background-color: #ffcc00;border:solid 5px;border-color: #fffdfe;">
+                                                <h6 class="text-truncate mb-3">
+                                                    <%= product[i].pname %>
+                                                </h6>
+                                                <div class="d-flex justify-content-center">
+                                                    <h6>
+                                                        <%= product[i].price %>
+                                                    </h6>
+                                                    <h6 class="text-muted ml-2"><del>
+                                                            <%= product[i].price %>
+                                                        </del></h6>
+                                                </div>
+
+                                                <% if (product[i].quantity===0) { %>
+                                                    <div class="d-flex justify-content-center">
+                                                        <h6>Out of Stock</h6>
+                                                    </div>
+                                                    <% } %>
+                                            </div>
+                                            <div class="card-footer d-flex justify-content-between bg-info border">
+                                                <a href="/login" class="btn btn-sm text-white p-0"><i
+                                                        class="fas fa-heart text-white mr-1"></i>Wishlist</a>
+                                                <a href="/login" class="btn btn-sm text-white p-0"><i
+                                                        class="fas fa-shopping-cart text-white mr-1"></i>Add To Cart</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% } %>
+                                        <% } %>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Products End -->
+
+
+
+                <!-- Footer Start -->
+                <%- include('../userLayouts/footer') %>
+                    <!-- Footer End -->
+
+
+                    <!-- JavaScript Libraries -->
+                    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+                    <script
+                        src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+                    <script src="lib/easing/easing.min.js"></script>
+                    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+                    <!-- Contact Javascript File -->
+                    <script src="mail/jqBootstrapValidation.min.js"></script>
+                    <script src="mail/contact.js"></script>
+
+                    <!-- Template Javascript -->
+                    <script src="js/main.js"></script>
+                    <script>
+                        $(document).ready(function () {
+                            $('.img-fluid').elevateZoom({
+                                zoomType: "inner", // Type of zoom: inner, lens, window
+                                cursor: "crosshair", // Cursor style on zoom
+                            });
+                        });
+                    </script>
+</body>
+
+</html>

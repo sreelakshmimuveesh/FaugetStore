@@ -1,0 +1,28 @@
+<%-include('../adminLayouts/adminLoginLayout.ejs') %>
+<div class="container-fluid" style="background-image: url(/img/baby_bg2.jpeg);height: 950px;padding-top: 100px;">
+	<div class="container" style="height: 600px; background-color: rgba(255, 255, 255, 0.435);width: 400px;;border-radius: 25px;padding: 20px;">
+
+		<h3>Admin Signup</h3>
+		<form action="/admin/register" method="POST" onsubmit="return newUserValidation()">
+			<div class="form-group pl-5 pr-5 pt-5">
+		<input type="text" name="name" required class="form-control"  placeholder="Enter Name">
+	  </div>
+	  <div class="form-group pl-5 pr-5 pt-2">
+		<input type="email" name="email" required class="form-control" placeholder="Enter Email" id="email">
+	  </div>
+	  <div class="form-group pl-5 pr-5 pt-2">
+		<input type="number" name="phone" required class="form-control"  placeholder="Mobile Number"id="phone">
+	  </div>
+	  <div class="form-group pl-5 pr-5 pt-2">
+		<input type="password" name="password1" required class="form-control"  placeholder="Enter Password" id="password">
+	  </div>
+	  <div class="form-group pl-5 pr-5 pt-2">
+		<input type="password" name="password" required class="form-control"  placeholder="Confirm Password" id="confirmpassword">
+	  </div>
+	  <button type="submit" class="btn btn-warning w-50">Create Account</button>
+	 
+			
+			</form>
+	
+
+<%-include('../adminLayouts/adminfooter.ejs') %>

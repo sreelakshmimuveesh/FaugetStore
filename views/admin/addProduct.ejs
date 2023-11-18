@@ -1,0 +1,130 @@
+<%-include('../adminLayouts/adminheader.ejs') %>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js"></script>
+<link href="/CSS/style.css" rel="stylesheet">
+
+<!-- side bar -->
+<div class="sidebar">
+  <div style="padding: 16px;color: #FDC33D;">
+     <p> <img src="/img/img_avatar1.png" class="avatar"> Admin</p>
+  </div>
+  <a href="/admin/orderManagement"><img src="/img/shopping-cart-256.png" style="width:30px;height: 30px;">  Orders</a>
+  <a href="/admin/userDisplay"><img src="/img/users.png" style="width:30px;height: 30px;"> Users</a>
+  <a href="/admin/productDisplay"><img src="/img/product.png" style="width:30px;height: 30px;"> Product</a>
+  <a href="/admin/transactions"><img src="/img/payment.png" style="width:30px;height: 30px;"> Transactions</a>
+  <a href="/admin/coupons"><img src="/img/coupon.png" style="width:30px;height: 30px;"> Coupons</a>
+  <a href="/admin/reports"><img src="/img/report-3-256.png" style="width:30px;height: 30px;"> Reports</a>
+</div>
+<!-- side bar end -->
+<div class="content">
+	<form action="/admin/addProduct" method="post" enctype="multipart/form-data" onsubmit="return productValidation()">
+		<!-- <div class = "form-row"> -->
+		<div class="form-group col-md-6">
+		   <% if(typeof message !=='undefined' ){ %>
+			  <p style="color: green;">
+				 <%= message %>
+			  </p>
+			  <%}%>
+				 <label style="color: black;font-weight: bolder;" for="prodname">Product Name</label>
+				 <input name="pname" type="text" class=" form-control" placeholder="Product Name"style="background:transparent;">
+		</div>
+
+		<div class="form-group col-md-6">
+		   <label style="color: black;font-weight: bolder;" for="inputPassword4">Product Price</label>
+		   <input name="price" type="text" class="form-control" placeholder="Product Price" id="price" style="background:transparent;">
+		</div>
+		<!-- </div> -->
+
+		<div class="form-group col-md-6">
+		   <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Description</label>
+		   <input name="pdesc" type="text" class=" form-control" placeholder="Product Description" style="background:transparent;">
+		</div>
+
+		<div class="form-group col-md-6">
+		   <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Category</label>
+		   <input name="pcat" type="text" class=" form-control" placeholder="Product Category" style="background:transparent;">
+		</div>
+
+		<div class="form-group col-md-6">
+            <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Image</label>
+            <input name="pimage" type="file" class="form-control addProductImg" multiple placeholder="Product Image" style="background:transparent;" id="cropImg">
+            <!-- Hidden input to store cropped image data -->
+            <input type="hidden" name="croppedImage" id="croppedImage">
+            <!-- Button to trigger image cropping -->
+            <button type="button" id="cropBtn" class="btn btn-primary">Crop Image</button>
+        </div>
+
+		<div class="form-group col-md-6">
+		   <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Quantity</label>
+		   <input name="pquantity" type="text" class=" form-control" placeholder="Product Quantity" id="quantity" style="background:transparent;">
+		</div>
+
+		<button type="submit" class="btn btn-primary mx-3">Add Product</button>
+	 </form>
+  </div>
+  <div id="myModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div id="caption"></div>
+</div>
+  </div>
+  
+  <!-- form end here -->
+<%-include('../adminLayouts/adminfooter.ejs') %>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const fileInput = document.querySelector('.addProductImg');
+        const cropBtn = document.getElementById('cropBtn');
+        let cropper;
+
+        fileInput.addEventListener('change', (e) => {
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                if (e.target.result) {
+                    const image = new Image();
+                    image.src = e.target.result;
+
+                    image.onload = () => {
+                        // Display the image in the modal or a preview area
+                        var modalImg = document.getElementById("modalImage");
+                        modalImg.src = image.src;
+
+                        // Initialize Cropper.js
+                        cropper = new Cropper(image, {
+                            aspectRatio: 1,
+                            viewMode: 1,
+                        });
+                    };
+                }
+            };
+
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        cropBtn.addEventListener('click', function () {
+    if (cropper) {
+        // Get cropped image data
+        const croppedData = cropper.getCroppedCanvas().toDataURL('image/jpeg');
+
+        // Append the cropped image data to the FormData object
+        const formData = new FormData(document.querySelector('form'));
+        formData.append('croppedImage', croppedData);
+
+        // Submit the form with both form data and cropped image data
+        fetch('/admin/addProduct', {
+            method: 'POST',
+            body: formData,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+            // Handle response from the server
+            console.log(data);
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
+});
+});
+</script>

@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fauget Store</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/CSS/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+        <%- include('../userLayouts/userHeader') %>
+        
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/CSS/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Page Wrapper -->
+    <div class="container-fluid">
+
+        
+
+        <!-- Content Wrapper -->
+        <div class="container p-5 m-auto ml-5" style="background-color: rgb(127, 127, 131);">
+          <h3 class="fw-bold mb-0 text-black">CHECKOUT</h3>
+          
+          <!-- Content Column -->
+          <div class="card ml-5 W-50 mr-0 p-3 d-flex">
+            <div class="card-header ">
+              Choose your Address
+            </div>
+            <form style="padding: 5px;">
+              <% address?.address.forEach((item, index) => { %>
+                <div class="card-body form-check p-2">
+                  <input type="radio" name="address" id="address<%= index + 1 %>" data-id="<%= item._id %>" class="form-check-input">
+                  <label for="address<%= index + 1 %>" class="form-check-label">
+                    <div class="card-radio text-truncate p-3">
+                      <span class="fs-14 mb-4 d-block">Address <%= index + 1 %></span>
+                      <span class="fs-14 mb-4 d-block"><%= item.address1 %>, <%= item.country %>, <%= item.city %>, <%= item.state %>, <%= item.zip %></span>
+                    </div>
+                  </label>
+                </div>
+              <% }); %>
+            </form>
+          </div>
+          
+          <div class="card ml-5 W-50 mr-0 p-5">
+            <div class="card-header">
+              Choose your Payment Method
+            </div>
+            <form>
+              <br>
+              <input type="radio" name="pay-method" id="pay-methodoption1" value="Credit Card" class="form-check-input">
+              <label for="pay-methodoption1">Credit Card</label><br><br>
+              <input type="radio" name="pay-method" id="pay-methodoption2" value="UPI" class="form-check-input">
+              <label for="pay-methodoption2">UPI</label><br><br>
+              <input type="radio" name="pay-method" id="pay-methodoption3" value="Cash on Delivery" class="form-check-input">
+              <label for="pay-methodoption3">Cash on Delivery</label>
+            </form>
+          </div>
+          
+        <div class="card ml-5 W-50 mr-0 p-5">
+          <div class="card-header">
+              Order Summary
+          </div>
+      
+          <br>
+          <h6>Total Items : <span id="totalItemsOrdered">0</span></h6>
+          <h6>Shipping Cost : <span >₹40.00</span></h6>
+          <h6 >Order Total : <span id="totalAmount">₹0.00</span></h6><br>
+          <a href="/order"><button type="button" id="placeOrderButton" class="btn bg-warning W-50">Place Order</button></a>
+
+      </div>
+    </div>
+          
+      
+      
+      
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+
+    <%- include('../userLayouts/footer') %>
+    <div id="popup-container" class="popup-container">
+        <div class="popup">
+          <span id="success-message"></span>
+          <button id="close-popup">Close</button>
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const successMessage = urlParams.get('success');
+
+          if (successMessage) {
+            const popupContainer = document.getElementById('popup-container');
+            const successMessageElement = document.getElementById('success-message');
+            successMessageElement.textContent = successMessage;
+
+            const closePopupButton = document.getElementById('close-popup');
+            closePopupButton.addEventListener('click', () => {
+              popupContainer.style.display = 'none';
+              
+            });
+
+            // Show the pop-up
+            popupContainer.style.display = 'flex';
+          }
+
+          const quantityInputs = document.querySelectorAll('.quantity-input');
+          quantityInputs.forEach(input => {
+            console.log('Input changed');
+            input.addEventListener('input', () => {
+              updateSubtotal(input);
+            });
+          });
+        });
+
+        function incrementQuantity(button) {
+          const quantityInput = button.parentNode.querySelector('input[type=number]');
+          if (quantityInput) {
+            quantityInput.stepUp();
+            updateSubtotal(quantityInput);
+          }
+        }
+
+        function decrementQuantity(button) {
+          const quantityInput = button.parentNode.querySelector('input[type=number]');
+          if (quantityInput) {
+            quantityInput.stepDown();
+            updateSubtotal(quantityInput);
+          }
+        }
+       
+        // Attach a click event listener to all checkboxes
+const checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
+checkboxes.forEach(checkbox => {
+checkbox.addEventListener('click', () => {
+// Update the totals when checkboxes are clicked
+updateSubtotal();
+});
+});
+
+// Initialize the subtotal and total amount
+updateSubtotal();
+
+function updateSubtotal() {
+// Calculate the subtotal
+subtotal = 0;
+let shippingCost = 40;
+const checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+
+checkboxes.forEach(checkbox => {
+const productId = checkbox.value;
+const quantityInput = document.querySelector(`input[data-product-id="${productId}"]`);
+if (quantityInput) {
+const quantity = parseInt(quantityInput.value);
+const price = parseFloat(quantityInput.getAttribute('data-price'));
+subtotal += quantity * price;
+}
+});
+
+// Update the Sub Total in the HTML
+const subtotalElement = document.getElementById('subtotal');
+if (subtotalElement) {
+subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+}
+
+// Calculate the total amount
+const totalAmount = subtotal + shippingCost;
+
+// Update the Total Amount in the HTML
+const totalAmountElement = document.getElementById('totalamount');
+if (totalAmountElement) {
+totalAmountElement.textContent = `₹${totalAmount.toFixed(2)}`;
+}
+}
+
+// Function to handle quantity changes
+
+
+// Add event listeners to quantity inputs
+const quantityInputs = document.querySelectorAll('.quantity-input');
+quantityInputs.forEach(input => {
+input.addEventListener('input', () => {
+updateSubtotal(input);
+
+});
+});
+
+
+           document.addEventListener('DOMContentLoaded', () => {
+  // Retrieve total items and total amount from the URL query parameters
+  const urlParams = new URLSearchParams(window.location.search);
+  const totalItems = urlParams.get('selectedCount');
+  let totalAmount = parseFloat(urlParams.get('totalAmount'));
+
+  // Check if totalAmount is NaN or not provided
+  if (isNaN(totalAmount)) {
+    // Set a default value or display an error message
+    totalAmount = 0; // Set a default value
+    // Alternatively, you can display an error message to the user.
+    // Example: totalAmountElement.textContent = 'Invalid Amount';
+  }
+
+  // Update the "Total Items Ordered" and "Amount to be Paid" fields
+  const totalItemsElement = document.getElementById('totalItemsOrdered');
+  const totalAmountElement = document.getElementById('totalAmount');
+  const subTotal = document.getElementById('subtotal');
+
+  totalItemsElement.textContent = totalItems;
+  totalAmountElement.textContent = `₹${totalAmount.toFixed(2)}`;
+
+  // Add a form submission handler to your button
+  const placeOrderButton = document.querySelector('#placeOrderButton');
+  placeOrderButton.addEventListener('click', () => {
+    // Get the selected address and payment method
+    const selectedAddressInput = document.querySelector('input[name="address"]:checked');
+    const selectedPaymentMethodInput = document.querySelector('input[name="pay-method"]:checked');
+
+    if (!selectedAddressInput || !selectedPaymentMethodInput) {
+      alert('Please select an address and payment method.');
+      return;
+    }
+
+    // Extract the selected address and payment method values
+    const addressID = selectedAddressInput.getAttribute('data-id');
+    const paymentMethod = selectedPaymentMethodInput.value;
+
+    // Create a data object with the selected information
+    const orderData = {
+      addressID: addressID,
+      paymentMethod: paymentMethod,
+      
+    };
+
+    // Send an HTTP POST request to your server
+    fetch('/placeOrder', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(orderData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the response from the server, e.g., show a success message
+        alert(data.message);
+      })
+      .catch(error => {
+        console.error('Error placing order:', error);
+      });
+  });
+});
+
+
+        
+
+</script>

@@ -1,0 +1,57 @@
+<%-include('../adminLayouts/adminheader.ejs') %>
+<!-- side bar -->
+<div class="sidebar">
+	<div style="padding: 16px;color: #FDC33D;">
+	   <p> <img src="/img/img_avatar1.png" class="avatar"> Admin</p>
+	</div>
+	<a href="/admin/orderManagement"><img src="/img/shopping-cart-256.png" style="width:30px;height: 30px;">  Orders</a>
+	<a href="/admin/userDisplay"><img src="/img/users.png" style="width:30px;height: 30px;"> Users</a>
+	<a href="/admin/productDisplay"><img src="/img/product.png" style="width:30px;height: 30px;"> Product</a>
+	<a href="/admin/transactions"><img src="/img/payment.png" style="width:30px;height: 30px;"> Transactions</a>
+	<a href="/admin/coupons"><img src="/img/coupon.png" style="width:30px;height: 30px;"> Coupons</a>
+	<a href="/admin/reports"><img src="/img/report-3-256.png" style="width:30px;height: 30px;"> Reports</a>
+  </div>
+  <!-- side bar end -->
+  <div class="content">
+	<form action="/admin/editProduct" method="post" >
+		  <!-- <div class = "form-row"> -->
+		  <div class="form-group col-md-6">
+			 <% if(typeof message !=='undefined' ){ %>
+				<p style="color: green;">
+				   <%= message %>
+				</p>
+				<%}%>
+				   <label style="color: black;font-weight: bolder;" for="prodname">Product Name</label>
+				   <input name="pname" type="text" class=" form-control" placeholder="Product Name"style="background:transparent;" value="<%= product.pname %>">
+		  </div>
+  
+		  <div class="form-group col-md-6">
+			 <label style="color: black;font-weight: bolder;" for="inputPassword4">Product Price</label>
+			 <input name="price" type="text" class="form-control" placeholder="Product Price" style="background:transparent;"value="<%= product.price %>">
+		  </div>
+		  <!-- </div> -->
+  
+		  <div class="form-group col-md-6">
+			 <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Description</label>
+			 <input name="pdesc" type="text" class=" form-control" placeholder="Product Description" style="background:transparent;" value="<%= product.pdesc %>">
+		  </div>
+  
+		  <div class="form-group col-md-6">
+			 <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Category</label>
+			 <input name="pcat" type="text" class=" form-control" placeholder="Product Category" style="background:transparent;"value="<%= product.pcat %>">
+		  </div>
+  
+  
+		  <div class="form-group col-md-6">
+			 <label style="color: black;font-weight: bolder;" for="inputEmail4">Product Quantity</label>
+			 <input name="pquantity" type="text" class=" form-control" placeholder="Product Quantity" style="background:transparent;" value="<%= product.pquantity %>">
+		  </div>
+		  <input type="hidden" name="id" value="<%= product._id %>">
+
+  
+		  <button type="submit" class="btn btn-primary mx-3">Edit Product</button>
+	   </form>
+	</div>
+	</div>
+	<!-- form end here -->
+  <%-include('../adminLayouts/adminfooter.ejs') %>

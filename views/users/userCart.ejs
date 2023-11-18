@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fauget Store</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="/CSS/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+        <%- include('../userLayouts/userHeader') %>
+        
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/CSS/sb-admin-2.css" rel="stylesheet">
+
+  <!-- Page Wrapper -->
+    <div class="container-fluid bg-white">
+
+       
+        <!-- Content Wrapper -->
+        <div class="container p-5 mt-0" style="background-color: rgb(127, 127, 131);border-radius: 5px;">
+
+            <!-- Main Content -->
+            <!-- Content Row -->
+                        <!-- Content Column -->
+                          <!-- Content Row -->
+                        
+                            <h3 class="fw-bold mb-0 text-white">SHOPPING CART</h3>
+                            <h6 class="fw-bold text-right text-white">Items <%= cartCount %></h6>
+                            <!-- <% if (cart && cart.product) { %> -->
+                              <% console.log(cart); %>
+                            <% cart.product.forEach((item, index)=> { %>
+                   <div class="container bg-white m-auto p-3" style="border-radius: 8px;">
+                    <table class="table" style="border-color: rgb(165, 165, 166);">
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="selectedProducts" value="<%= item.productID._id.toString() %>">
+                            </td>
+                            <td> <img src="./productImages/<%=item.productID.pimage %>" class="img-fluid rounded-3" alt="pimage" height="100px" width="100px"></td>
+                       <td><h5><%=item.productID.pname %></h5></td>
+                       <td><h6 class="mb-0 price-element" id="price_<%= item.productID._id %>">
+                        <i class="fas fa-rupee-sign"></i>
+                        <%= item.productID.price %>
+                      </h6></h5></td>
+                       <td>
+                        <form class="d-flex align-items-center px-2">
+                          <button class="btn btn-link" type="button" onclick="decrementQuantity(this)">
+                            <i class="fas fa-minus"></i>
+                          </button>
+                         
+                        
+
+                          <input class="form-control form-control-sm w-auto quantity-input" type="number" min="0" max="<%= item.productID.pquantity%>"
+                            name="quantity" value="1" data-product-id="<%= item.productID._id %>"
+                            data-price="<%= item.productID.price %>" style="color: black;" />
+
+                          <button class="btn btn-link px-2" type="button" onclick="incrementQuantity(this)">
+                            <i class="fas fa-plus"></i>
+                          </button>
+                        </form>
+                    </td>
+                        <td><a onclick="return confirm('Do you want to delete')" style="text-decoration: none;"
+                            href="/deleteCart?id=<%= item.productID._id.toString()%>"><i class="fas fa-trash-alt"></i></a>
+  </td>
+                        </tr>
+                    </table>
+                   </div>
+                   
+                   <% }); %>
+                   <!-- <% } else { %>
+                    <p>No items in the cart</p>
+                  <% } %> -->
+                  <div class="container p-3">
+                   <h4 style="text-align: right;color: white; font-weight: bold;">Sub Total: <span id="subtotal"></span></h4>
+                  </div>
+                   <button type="button" id="checkoutButton" class="btn btn-warning btn-block btn-lg w-auto m-auto text-black" data-mdb-ripple-color="dark"
+                   onclick="redirectToPaymentPage()">CHECK OUT</button>
+                 
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <%- include('../userLayouts/footer') %>
+    <div id="popup-container" class="popup-container">
+        <div class="popup">
+          <span id="success-message"></span>
+          <button id="close-popup">Close</button>
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const urlParams = new URLSearchParams(window.location.search);
+          const successMessage = urlParams.get('success');
+
+          if (successMessage) {
+            const popupContainer = document.getElementById('popup-container');
+            const successMessageElement = document.getElementById('success-message');
+            successMessageElement.textContent = successMessage;
+
+            const closePopupButton = document.getElementById('close-popup');
+            closePopupButton.addEventListener('click', () => {
+              popupContainer.style.display = 'none';
+              
+            });
+
+            // Show the pop-up
+            popupContainer.style.display = 'flex';
+          }
+
+          const quantityInputs = document.querySelectorAll('.quantity-input');
+          quantityInputs.forEach(input => {
+            console.log('Input changed');
+            input.addEventListener('input', () => {
+              updateSubtotal(input);
+            });
+          });
+        });
+
+        function incrementQuantity(button) {
+          const quantityInput = button.parentNode.querySelector('input[type=number]');
+          if (quantityInput) {
+            quantityInput.stepUp();
+            updateSubtotal(quantityInput);
+          }
+        }
+
+        function decrementQuantity(button) {
+          const quantityInput = button.parentNode.querySelector('input[type=number]');
+          if (quantityInput) {
+            quantityInput.stepDown();
+            updateSubtotal(quantityInput);
+          }
+        }
+       
+        // Attach a click event listener to all checkboxes
+const checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
+checkboxes.forEach(checkbox => {
+checkbox.addEventListener('click', () => {
+// Update the totals when checkboxes are clicked
+updateSubtotal();
+});
+});
+
+// Initialize the subtotal and total amount
+updateSubtotal();
+
+function updateSubtotal() {
+// Calculate the subtotal
+subtotal = 0;
+let shippingCost = 40;
+const checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+
+checkboxes.forEach(checkbox => {
+const productId = checkbox.value;
+const quantityInput = document.querySelector(`input[data-product-id="${productId}"]`);
+if (quantityInput) {
+const quantity = parseInt(quantityInput.value);
+const price = parseFloat(quantityInput.getAttribute('data-price'));
+subtotal += quantity * price;
+}
+});
+
+// Update the Sub Total in the HTML
+const subtotalElement = document.getElementById('subtotal');
+if (subtotalElement) {
+subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+}
+
+// Calculate the total amount
+const totalAmount = subtotal + shippingCost;
+
+// Update the Total Amount in the HTML
+const totalAmountElement = document.getElementById('totalamount');
+if (totalAmountElement) {
+totalAmountElement.textContent = `₹${totalAmount.toFixed(2)}`;
+}
+}
+
+// Function to handle quantity changes
+
+
+// Add event listeners to quantity inputs
+const quantityInputs = document.querySelectorAll('.quantity-input');
+quantityInputs.forEach(input => {
+input.addEventListener('input', () => {
+updateSubtotal(input);
+
+});
+});
+
+      
+
+// Update your redirectToPaymentPage function
+function redirectToPaymentPage() {
+const selectedProductCheckboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+const selectedProductIds = Array.from(selectedProductCheckboxes).map(checkbox => checkbox.value);
+
+if (selectedProductIds.length > 0) {
+const selectedProducts = [];
+let subtotal = 0;
+
+selectedProductCheckboxes.forEach(checkbox => {
+const productId = checkbox.value;
+const quantityInput = document.querySelector(`input[data-product-id="${productId}"]`);
+if (quantityInput) {
+  const quantity = parseInt(quantityInput.value);
+  const price = parseFloat(quantityInput.getAttribute('data-price'));
+  const productSubtotal = quantity * price;
+  subtotal += productSubtotal;
+
+  const productInfo = {
+    productId,
+    quantity,
+    price,
+    subtotal: productSubtotal,
+  };
+  selectedProducts.push(productInfo);
+}
+});
+
+let shippingCost = 40;
+const totalAmount = subtotal + shippingCost;
+const selectedCount = selectedProductIds.length;
+
+// Create the order object
+const order = {
+userID: 'req.session.user_id', // Replace with the actual user ID
+productDetails: selectedProducts,
+totalPrice: totalAmount,
+};
+
+// Send a POST request to your server to save the order
+fetch('/orderAdd', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify(order),
+})
+  .then(response => response.json())
+  .then(data => {
+    // Handle the response from the server, e.g., show a success message
+    // and proceed to delete from cart after successful order placement
+    fetch('/deleteFromCart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ productIds: selectedProductIds }),
+    })
+      .then(response => response.json())
+      .then(data => {
+        // After successfully deleting from cart, proceed to payment page
+        const url = `/payment?selectedProductIds=${selectedProductIds.join(',')}&selectedCount=${selectedCount}&totalAmount=${totalAmount}&subtotal=${subtotal}&selectedProducts=$`;
+        window.location.href = url;
+      })
+      .catch(error => {
+        console.error('Error deleting from cart:', error);
+        alert('Error deleting from cart. Please try again.');
+      });
+  })
+  .catch(error => {
+    console.error('Error saving order:', error);
+  });
+
+  
+} else {
+alert('Please select at least one product to proceed to checkout.');
+}
+}
+
+
+
+
+</script>

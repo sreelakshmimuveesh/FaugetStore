@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Fauget Store</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/titleicon1.png" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+        <%- include('../userLayouts/userHeader') %>
+        
+              
+
+        <div class="container m-auto ml-0 p-4" style="background-image: url(/img/baby_bg2.jpeg);background-size:cover;">
+            <div class="d-flex" id="wrapper">
+            <!-- Sidebar-->
+            <div class="border-end p-2" id="sidebar-wrapper" style="background-color:#FE7596;border-radius: 10px;width: 300px;">
+                <p style="color: white;"> <img src="/img/img_avatar1.png" class="avatar"> <%= user.name%></p>
+                <div class="list-group list-group-flush">
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" style="background: transparent;color: white;" href="/userAccount"><i class="fas fa-user"></i> Profile</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" style="background: transparent;color: white;" href="/userCart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" style="background: transparent;color: white;" href="/wishList"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" style="background: transparent;color: white;" href="/userOrder"><i class="fab fa-first-order"></i> Orders</a>
+                    <a class="list-group-item list-group-item-action list-group-item-light p-3" style="background: white;color: gray;border-radius: 10px;" href="/deliveryAddress"><i class="fas fa-shipping-fast"></i> Addresses</a>
+                    
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="container ">
+                    <form action="/addAddress" method="POST" onsubmit="return newUserValidation()">
+                       
+                    
+                        <div class="form-group pl-5 pr-5 pt-2">
+                            <input type="text" name="address1" required class="form-control"  placeholder="Address" id="address">
+                          </div>
+                        <div class="form-group pl-5 pr-5 pt-2">
+                          <input type="text" name="country" required class="form-control"  placeholder="Country" id="country">
+                        </div>
+                        <div class="form-group pl-5 pr-5 pt-2">
+                          <input type="text" name="city" required class="form-control"  placeholder="City" id="city">
+                        </div>
+                        <div class="form-group pl-5 pr-5 pt-2">
+                            <input type="text" name="state" required class="form-control"  placeholder="State" id="state">
+                          </div>
+                          <div class="form-group pl-5 pr-5 pt-2">
+                            <input type="number" name="zip" required class="form-control"  placeholder="Zip Code" id="zip">
+                          </div>
+                         
+                          
+                        <button type="submit" class="btn btn-warning w-50 ml-5">Add Address</button>
+                    
+    </form>
+</div>
+</div>
+        
